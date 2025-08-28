@@ -34,7 +34,12 @@ DEBUG = True
 
 import os
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
+ALLOWED_HOSTS = [
+    '.vercel.app',   # allows all *.vercel.app subdomains
+    'localhost',
+    '127.0.0.1'
+]
+
 
 
 
