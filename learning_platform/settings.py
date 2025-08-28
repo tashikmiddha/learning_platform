@@ -36,7 +36,13 @@ DEBUG = True
 
 import os
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '.vercel.app,localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = [
+    'learning-platform-nu-rosy.vercel.app',
+    'learning-platform-givwyl09x-tashik-middhas-projects.vercel.app',
+    '127.0.0.1',
+    'localhost'
+]
+
 
 
 
