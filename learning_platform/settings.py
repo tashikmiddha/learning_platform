@@ -89,13 +89,14 @@ WSGI_APPLICATION = 'learning_platform.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-import dj_database_url
-
+import tempfile
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgres://username:password@host:port/dbname'
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(tempfile.gettempdir(), 'db.sqlite3'),
+    }
 }
+
 
 
 # Password validation
