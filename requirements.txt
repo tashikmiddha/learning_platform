@@ -1,0 +1,38 @@
+# Django Web Framework
+Django>=4.2,<5.0
+
+# LangChain for AI interaction
+langchain>=0.1.0
+
+# Google Gemini (Generative AI)
+google-generativeai>=0.3.0
+
+# OpenAI (optional if you use OpenAI models via LangChain)
+openai>=1.2.0
+
+# For environment variables
+python-dotenv>=1.0.0
+
+# HTTP requests for API integration
+requests>=2.31.0
+
+# For parsing and working with unstructured data (LangChain-compatible)
+unstructured>=0.11.0
+
+# Vector storage (if needed for embeddings or chatbot memory)
+faiss-cpu>=1.7.4
+
+# Optional: if using sentence transformers for embeddings
+sentence-transformers>=2.2.2
+
+# Optional: if using Streamlit for local testing/demo
+streamlit>=1.27.0
+
+# Optional: if summarizing videos via transcript
+youtube-transcript-api>=0.6.0
+
+# Optional: frontend components if you're using crispy forms
+django-crispy-forms>=2.0
+
+# Security and CORS handling
+django-cors-headers>=4.0.0
