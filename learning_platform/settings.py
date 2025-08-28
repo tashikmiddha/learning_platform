@@ -89,13 +89,23 @@ WSGI_APPLICATION = 'learning_platform.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-import tempfile
+# import tempfile
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(tempfile.gettempdir(), 'db.sqlite3'),
+#     }
+# }
+
+import dj_database_url
+import os
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(tempfile.gettempdir(), 'db.sqlite3'),
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL')
+    )
 }
+
 
 
 
