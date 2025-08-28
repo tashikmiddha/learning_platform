@@ -40,7 +40,8 @@ ALLOWED_HOSTS = [
     'learning-platform-nu-rosy.vercel.app',
     'learning-platform-givwyl09x-tashik-middhas-projects.vercel.app',
     '127.0.0.1',
-    'localhost'
+    'localhost',
+    'learning-platform-givwyl09x-tashik-middhas-projects.vercel.app',
 ]
 
 
