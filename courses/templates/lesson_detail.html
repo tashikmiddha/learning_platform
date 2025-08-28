@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}Lesson {{ lesson.title }}{% endblock %}
+{% block content %}
+<h2>{{ lesson.title }}</h2>
+<p>{{ lesson.content|linebreaks }}</p>
+<a href="{% url 'quiz' lesson.pk %}" class="btn btn-success">Take Quiz</a>
+{% endblock %}

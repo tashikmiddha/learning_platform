@@ -1,0 +1,14 @@
+<!-- filepath: /Users/tashikmiddha/Desktop/practice/persoonalized_learning/myenv/learning_platform/courses/templates/curriculum.html -->
+{% extends "base.html" %}
+{% block title %}Generate Curriculum{% endblock %}
+{% block content %}
+<h2>Generate Curriculum</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="topic" class="form-label">Enter Topic</label>
+        <input type="text" name="topic" id="topic" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Generate Curriculum</button>
+</form>
+{% endblock %}

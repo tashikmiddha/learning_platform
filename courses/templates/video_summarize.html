@@ -1,0 +1,25 @@
+<!-- filepath: /Users/tashikmiddha/Desktop/practice/persoonalized_learning/myenv/learning_platform/courses/templates/video_summarize.html -->
+{% extends "base.html" %}
+{% block title %}Summarize Video{% endblock %}
+{% block content %}
+<h2>Summarize Video Content</h2>
+<p class="text-muted">Paste the transcript or description of the video content below to generate a summary.</p>
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="title" class="form-label">Video Title</label>
+        <input type="text" name="title" id="title" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="video_url" class="form-label">Video URL (Optional)</label>
+        <input type="url" name="video_url" id="video_url" class="form-control">
+        <div class="form-text">Optional: Include the video URL for reference</div>
+    </div>
+    <div class="mb-3">
+        <label for="content" class="form-label">Video Content/Transcript</label>
+        <textarea name="content" id="content" class="form-control" rows="10" required placeholder="Paste the transcript or description of the video content here..."></textarea>
+        <div class="form-text">Please provide the transcript or a detailed description of the video content you want to summarize.</div>
+    </div>
+    <button type="submit" class="btn btn-primary">Generate Summary</button>
+</form>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}AI Chatbot{% endblock %}
+{% block content %}
+<h2>AI Chatbot Tutor</h2>
+<div id="chat-window" class="border rounded p-3 mb-3" style="height:300px; overflow-y:auto; background:#fff;">
+    {% for msg in chat_history %}
+        <div><strong>You:</strong> {{ msg.user }}</div>
+        <div><strong>AI:</strong> {{ msg.ai }}</div>
+    {% endfor %}
+</div>
+<form id="chat-form" class="input-group mb-3">
+    <input type="text" id="chat-input" class="form-control" placeholder="Ask your AI tutor..." autocomplete="off" />
+    <button class="btn btn-primary" type="submit">Send</button>
+</form>
+<script>
+const chatWindow = document.getElementById('chat-window');
+document.getElementById('chat-form').onsubmit = function(e) {
+    e.preventDefault();
+    var input = document.getElementById('chat-input');
+    var message = input.value.trim();
+    if (!message) return;
+    chatWindow.innerHTML += '<div><strong>You:</strong> ' + message + '</div>';
+    input.value = '';
+    fetch("", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "message=" + encodeURIComponent(message)
+    })
+    .then(response => response.json())
+    .then(data => {
+        chatWindow.innerHTML += '<div><strong>AI:</strong> ' + data.reply + '</div>';
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    });
+};
+</script>
+{% endblock %}

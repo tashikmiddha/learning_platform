@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - AI Learning{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jumbotron bg-primary text-white p-4 rounded mb-4">
+                <h1 class="display-4">Welcome back, {{ user.username }}!</h1>
+                <p class="lead">Continue your learning journey with our AI-powered platform.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3 shadow">
+                <div class="card-header">Courses</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ progress_reports|length }}</h5>
+                    <p class="card-text">Active courses</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-info mb-3 shadow">
+                <div class="card-header">Summaries</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ video_summaries|length }}</h5>
+                    <p class="card-text">Video summaries</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-warning mb-3 shadow">
+                <div class="card-header">Curriculums</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ curriculums|length }}</h5>
+                    <p class="card-text">Generated curriculums</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <ul class="nav nav-tabs mb-4" id="dashboardTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="courses-tab" data-bs-toggle="tab" href="#courses" role="tab" aria-controls="courses" aria-selected="true">Courses Progress</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="summaries-tab" data-bs-toggle="tab" href="#summaries" role="tab" aria-controls="summaries" aria-selected="false">Video Summaries</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="curriculums-tab" data-bs-toggle="tab" href="#curriculums" role="tab" aria-controls="curriculums" aria-selected="false">Curriculums</a>
+        </li>
+    </ul>
+
+    <!-- Tabs Content -->
+    <div class="tab-content" id="dashboardTabsContent">
+        <div class="tab-pane fade show active" id="courses" role="tabpanel" aria-labelledby="courses-tab">
+            <!-- Courses Progress Section -->
+            <div class="card mb-4 border-0 shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Your Courses Progress</h4>
+                </div>
+                <div class="card-body">
+                    {% if progress_reports %}
+                    <div class="row g-4">
+                        {% for report in progress_reports %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card shadow-sm h-100 border-0">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ report.title }}</h5>
+                                    <p class="card-text">{{ report.description }}</p>
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar" role="progressbar" style="width: {{ report.progress }}%;" aria-valuenow="{{ report.progress }}" aria-valuemin="0" aria-valuemax="100">{{ report.progress }}%</div>
+                                    </div>
+                                    <p>Status: {% if report.completed %}<span class="badge bg-success">Completed</span>{% else %}<span class="badge bg-warning">In Progress</span>{% endif %}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <p class="lead">No courses found.</p>
+                        <a href="{% url 'course_list' %}" class="btn btn-primary">Add Your First Course</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="summaries" role="tabpanel" aria-labelledby="summaries-tab">
+            <!-- Video Summaries Section -->
+            <div class="card mb-4 border-0 shadow">
+                <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Recent Video Summaries</h4>
+                    <a href="{% url 'video_summarize' %}" class="btn btn-light btn-sm">Create New Summary</a>
+                </div>
+                <div class="card-body">
+                    {% if video_summaries %}
+                    <div class="row g-4">
+                        {% for summary in video_summaries|slice:":3" %}
+                        <div class="col-md-12">
+                            <div class="card shadow-sm mb-3 border-0">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ summary.title }}</h5>
+                                    {% if summary.video_url %}
+                                    <p class="card-text"><small class="text-muted">URL: <a href="{{ summary.video_url }}" target="_blank">{{ summary.video_url }}</a></small></p>
+                                    {% endif %}
+                                    <p class="card-text">{{ summary.summary|truncatewords:50 }}</p>
+                                    <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#summary-{{ summary.id }}" aria-expanded="false" aria-controls="summary-{{ summary.id }}">
+                                        View Full Summary
+                                    </button>
+                                    <div class="collapse mt-3" id="summary-{{ summary.id }}">
+                                        <div class="card card-body">
+                                            <p class="card-text" style="white-space:pre-line;">{{ summary.summary }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <p class="lead">No recent video summaries available.</p>
+                        <a href="{% url 'video_summarize' %}" class="btn btn-info">Create Your First Summary</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="curriculums" role="tabpanel" aria-labelledby="curriculums-tab">
+            <!-- Curriculum Section -->
+            <div class="card border-0 shadow">
+                <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Your Curriculums</h4>
+                    <a href="{% url 'curriculum' %}" class="btn btn-dark btn-sm">Generate New Curriculum</a>
+                </div>
+                <div class="card-body">
+                    {% if curriculums %}
+                    <div class="accordion" id="curriculumAccordion">
+                        {% for curriculum in curriculums %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading-{{ curriculum.id }}">
+                                <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#curriculum-{{ curriculum.id }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="curriculum-{{ curriculum.id }}">
+                                    {{ curriculum.topic }}
+                                </button>
+                            </h2>
+                            <div id="curriculum-{{ curriculum.id }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading-{{ curriculum.id }}" data-bs-parent="#curriculumAccordion">
+                                <div class="accordion-body">
+                                    <pre class="pre-scrollable">{{ curriculum.curriculum_text }}</pre>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <p class="lead">No curriculums generated yet.</p>
+                        <a href="{% url 'curriculum' %}" class="btn btn-warning">Generate Your First Curriculum</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .nav-tabs .nav-link {
+        border: none;
+        border-bottom: 3px solid transparent;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-tabs .nav-link:hover {
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+    }
+    
+    .nav-tabs .nav-link.active {
+        border-bottom: 3px solid #007bff;
+        color: #007bff;
+        background-color: #fff;
+    }
+    
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+</style>
+
+<script>
+    // Add smooth scrolling to tabs
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabLinks = document.querySelectorAll('[data-bs-toggle="tab"]');
+        
+        tabLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all tabs
+                document.querySelectorAll('.nav-link').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Hide all tab panes
+                document.querySelectorAll('.tab-pane').forEach(pane => {
+                    pane.classList.remove('show', 'active');
+                });
+                
+                // Show target tab pane
+                const target = document.querySelector(this.getAttribute('href'));
+                target.classList.add('show', 'active');
+            });
+        });
+    });
+</script>
+{% endblock %}
