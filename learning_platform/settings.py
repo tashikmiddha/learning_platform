@@ -31,7 +31,12 @@ SECRET_KEY = 'django-insecure-7jbhlvu2by)zkk4)2gcvlohy*vd=+=2@8b8_3m7t%ge%k_f%%j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'learning-platform-nu-rosy.vercel.app',
+    '127.0.0.1',
+    'localhost'
+]
+
 
 
 # Application definition
