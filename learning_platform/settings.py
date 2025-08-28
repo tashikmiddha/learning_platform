@@ -31,17 +31,7 @@ SECRET_KEY = 'django-insecure-7jbhlvu2by)zkk4)2gcvlohy*vd=+=2@8b8_3m7t%ge%k_f%%j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
-
-
-import os
-
-ALLOWED_HOSTS = ['.vercel.app', 'localhost', '127.0.0.1']
-
-
-
-
-
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -89,24 +79,12 @@ WSGI_APPLICATION = 'learning_platform.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# import tempfile
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(tempfile.gettempdir(), 'db.sqlite3'),
-#     }
-# }
-
-import dj_database_url
-import os
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
-
-
 
 
 # Password validation
